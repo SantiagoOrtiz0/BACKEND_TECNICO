@@ -18,7 +18,6 @@ export class Tecnico {
         this._idTecnico = idTecnico;
     }
 
-    // Nombre y correo vienen del usuario asociado (no se duplican)
     public async SeleccionarTecnicos(): Promise<Record<string, unknown>[]> {
         const {rows: tecnicos} = await conexion.execute(
             `SELECT t.*, u.nombre, u.correo
@@ -68,10 +67,27 @@ export class Tecnico {
         return resultado.affectedRows ?? 0;
     }
 
+    public async ActualizarTecnico(): Promise<number> {
+        const t = this._ObjTecnico!;
+        const resultado = await conexion.execute(
+            `UPDATE tecnicos SET documento = ?, especialidad = ?, telefono = ?, estado = ? WHERE id = ?`,
+            [t.documento, t.especialidad, t.telefono, t.estado, this._idTecnico]
+        );
+        return resultado.affectedRows ?? 0;
+    }
+
     public async ActualizarEstadoTecnico(estado: "ACTIVO" | "INACTIVO"): Promise<number> {
         const resultado = await conexion.execute(
             `UPDATE tecnicos SET estado = ? WHERE id = ?`,
             [estado, this._idTecnico]
+        );
+        return resultado.affectedRows ?? 0;
+    }
+
+    public async EliminarTecnico(): Promise<number> {
+        const resultado = await conexion.execute(
+            `DELETE FROM tecnicos WHERE id = ?`,
+            [this._idTecnico]
         );
         return resultado.affectedRows ?? 0;
     }

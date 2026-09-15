@@ -1,0 +1,9 @@
+POST  http://localhost:8001/tecnicos
+
+{
+  "usuario_id": ,
+  "documento": "80111222",
+  "especialidad": "Hardware y portátiles",
+  "telefono": "3109876543",
+  "estado": "ACTIVO"
+}
