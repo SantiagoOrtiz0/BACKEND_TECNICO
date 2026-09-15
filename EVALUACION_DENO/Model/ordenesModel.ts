@@ -26,10 +26,11 @@ export class Orden {
 
     public async SeleccionarOrdenes(): Promise<Record<string, unknown>[]> {
         const {rows: ordenes} = await conexion.execute(
-            `SELECT o.*, c.nombre_completo AS nombre_cliente, t.nombre AS nombre_tecnico
+            `SELECT o.*, c.nombre_completo AS nombre_cliente, u.nombre AS nombre_tecnico
              FROM ordenes_servicio o
              INNER JOIN clientes c ON o.cliente_id = c.id
-             INNER JOIN tecnicos t ON o.tecnico_id = t.id`
+             INNER JOIN tecnicos t ON o.tecnico_id = t.id
+             INNER JOIN usuarios u ON t.usuario_id = u.id`
         );
         return ordenes as Record<string, unknown>[];
     }

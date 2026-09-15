@@ -24,7 +24,6 @@ export class HistorialEstado {
         return historial as HistorialEstadoData[];
     }
 
-
     public async InsertarHistorial(): Promise<number> {
         const h = this._ObjHistorial!;
         const resultado = await conexion.execute(
