@@ -9,3 +9,5 @@ export {load} from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 export * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 export { ensureDir } from "https://deno.land/std@0.224.0/fs/ensure_dir.ts";
 export { send } from "https://deno.land/x/oak@v17.2.0/mod.ts";
+
+export{hash as hashearpassword, compare as compararpassword} from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
