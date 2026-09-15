@@ -59,4 +59,14 @@ export class Usuario {
         );
         return resultado.affectedRows ?? 0;
     }
+
+    // NUEVO: rollback manual si falla la creación de la ficha técnica
+    // después de haber creado el usuario
+    public async EliminarUsuario(): Promise<number> {
+        const resultado = await conexion.execute(
+            `DELETE FROM usuarios WHERE id = ?`,
+            [this._idUsuario]
+        );
+        return resultado.affectedRows ?? 0;
+    }
 }
