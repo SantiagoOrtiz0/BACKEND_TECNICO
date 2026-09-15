@@ -2,7 +2,7 @@ import { conexion } from "./conexion.ts";
 
 interface TecnicoData {
     id: number | null;
-    nombre: string;
+    usuario_id: number;
     documento: string;
     especialidad: string;
     telefono: string;
@@ -18,15 +18,42 @@ export class Tecnico {
         this._idTecnico = idTecnico;
     }
 
-    public async SeleccionarTecnicos(): Promise<TecnicoData[]> {
-        const {rows: tecnicos} = await conexion.execute(`SELECT * FROM tecnicos`);
-        return tecnicos as TecnicoData[];
+    // Nombre y correo vienen del usuario asociado (no se duplican)
+    public async SeleccionarTecnicos(): Promise<Record<string, unknown>[]> {
+        const {rows: tecnicos} = await conexion.execute(
+            `SELECT t.*, u.nombre, u.correo
+             FROM tecnicos t
+             INNER JOIN usuarios u ON t.usuario_id = u.id`
+        );
+        return tecnicos as Record<string, unknown>[];
     }
 
-    public async ConsultarTecnico(): Promise<TecnicoData | null> {
+    public async ConsultarTecnico(): Promise<Record<string, unknown> | null> {
         const {rows: tecnicos} = await conexion.execute(
-            `SELECT * FROM tecnicos WHERE id = ?`,
+            `SELECT t.*, u.nombre, u.correo
+             FROM tecnicos t
+             INNER JOIN usuarios u ON t.usuario_id = u.id
+             WHERE t.id = ?`,
             [this._idTecnico]
+        );
+        const lista = tecnicos as Record<string, unknown>[];
+        return lista.length > 0 ? lista[0] : null;
+    }
+
+    // Para el Caso de prueba 7: validar que esté ACTIVO antes de asignarlo a una orden
+    public async ConsultarEstadoTecnico(): Promise<"ACTIVO" | "INACTIVO" | null> {
+        const {rows: tecnicos} = await conexion.execute(
+            `SELECT estado FROM tecnicos WHERE id = ?`,
+            [this._idTecnico]
+        );
+        const lista = tecnicos as { estado: "ACTIVO" | "INACTIVO" }[];
+        return lista.length > 0 ? lista[0].estado : null;
+    }
+
+    public async ConsultarTecnicoUsuarioId(usuario_id: number): Promise<TecnicoData | null> {
+        const {rows: tecnicos} = await conexion.execute(
+            `SELECT * FROM tecnicos WHERE usuario_id = ?`,
+            [usuario_id]
         );
         const lista = tecnicos as TecnicoData[];
         return lista.length > 0 ? lista[0] : null;
@@ -35,8 +62,8 @@ export class Tecnico {
     public async InsertarTecnico(): Promise<number> {
         const t = this._ObjTecnico!;
         const resultado = await conexion.execute(
-            `INSERT INTO tecnicos (nombre, documento, especialidad, telefono, estado) VALUES (?, ?, ?, ?, ?)`,
-            [t.nombre, t.documento, t.especialidad, t.telefono, t.estado]
+            `INSERT INTO tecnicos (usuario_id, documento, especialidad, telefono, estado) VALUES (?, ?, ?, ?, ?)`,
+            [t.usuario_id, t.documento, t.especialidad, t.telefono, t.estado]
         );
         return resultado.affectedRows ?? 0;
     }

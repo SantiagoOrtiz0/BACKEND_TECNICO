@@ -40,7 +40,7 @@ export class Cliente {
         return lista.length > 0 ? lista[0] : null;
     }
 
-    //no eliminar si tiene equipos asociados
+    // Regla 8: no eliminar si tiene equipos asociados
     public async ContarEquiposDelCliente(): Promise<number> {
         const resultado = await conexion.execute(
             `SELECT COUNT(*) AS total FROM equipos WHERE cliente_id = ?`,

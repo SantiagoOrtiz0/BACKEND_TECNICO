@@ -5,7 +5,7 @@ interface UsuarioData {
     nombre: string;
     correo: string;
     contrasena: string;
-    rol: "ADMINISTRADOR" | "TECNICO";
+    rol_id: number;
 }
 
 export class Usuario {
@@ -17,34 +17,45 @@ export class Usuario {
         this._idUsuario = idUsuario;
     }
 
-    public async SeleccionarUsuarios(): Promise<UsuarioData[]> {
-        const {rows: usuarios} = await conexion.execute(`SELECT * FROM usuarios`);
-        return usuarios as UsuarioData[];
+    public async SeleccionarUsuarios(): Promise<Record<string, unknown>[]> {
+        const {rows: usuarios} = await conexion.execute(
+            `SELECT u.id, u.nombre, u.correo, r.nombre AS rol
+             FROM usuarios u
+             INNER JOIN roles r ON u.rol_id = r.id`
+        );
+        return usuarios as Record<string, unknown>[];
     }
 
-    public async ConsultarUsuario(): Promise<UsuarioData | null> {
+    public async ConsultarUsuario(): Promise<Record<string, unknown> | null> {
         const {rows: usuarios} = await conexion.execute(
-            `SELECT * FROM usuarios WHERE id = ?`,
+            `SELECT u.id, u.nombre, u.correo, r.nombre AS rol
+             FROM usuarios u
+             INNER JOIN roles r ON u.rol_id = r.id
+             WHERE u.id = ?`,
             [this._idUsuario]
         );
-        const lista = usuarios as UsuarioData[];
+        const lista = usuarios as Record<string, unknown>[];
         return lista.length > 0 ? lista[0] : null;
     }
 
-    public async ConsultarUsuarioCorreo(correo: string): Promise<UsuarioData | null> {
+    
+    public async ConsultarUsuarioCorreo(correo: string): Promise<Record<string, unknown> | null> {
         const {rows: usuarios} = await conexion.execute(
-            `SELECT * FROM usuarios WHERE correo = ?`,
+            `SELECT u.*, r.nombre AS rol
+             FROM usuarios u
+             INNER JOIN roles r ON u.rol_id = r.id
+             WHERE u.correo = ?`,
             [correo]
         );
-        const lista = usuarios as UsuarioData[];
+        const lista = usuarios as Record<string, unknown>[];
         return lista.length > 0 ? lista[0] : null;
     }
 
     public async InsertarUsuario(): Promise<number> {
         const u = this._ObjUsuario!;
         const resultado = await conexion.execute(
-            `INSERT INTO usuarios (nombre, correo, contrasena, rol) VALUES (?, ?, ?, ?)`,
-            [u.nombre, u.correo, u.contrasena, u.rol]
+            `INSERT INTO usuarios (nombre, correo, contrasena, rol_id) VALUES (?, ?, ?, ?)`,
+            [u.nombre, u.correo, u.contrasena, u.rol_id]
         );
         return resultado.affectedRows ?? 0;
     }
