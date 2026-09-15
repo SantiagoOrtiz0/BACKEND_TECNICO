@@ -1,6 +1,6 @@
 import { Application, oakCors } from "./Dependencies/dependencies.ts";
-import { equiposRouter } from "./Router/EquiposRouter.ts";
-import { tecnicosRouter } from "./Router/TecnicosRouter.ts";
+import { equiposRouter } from "./Routes/EquiposRouter.ts";
+import { tecnicosRouter } from "./Routes/TecnicosRouter.ts";
 import authRoutes from "./Routes/authRoutes.ts";
 import clientesRoutes from "./Routes/clientesRoutes.ts";
 import registroRoutes from "./Routes/registroRoutes.ts";
