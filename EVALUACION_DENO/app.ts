@@ -1,17 +1,16 @@
 import { Application, oakCors } from "./Dependencies/dependencies.ts";
 const app = new Application();
-await load({export: true});
 app.use(oakCors({
     origin:"*"
 }));
 
 
-const routes = [];
+// const routes = [];
 
-routes.forEach(router =>{
-    app.use(router.routes());
-    app.use(router.allowedMethods());
-})
+// routes.forEach(router =>{
+//     app.use(router.routes());
+//     app.use(router.allowedMethods());
+// })
 
 console.log("Servidor corriendo por el puerto 8001");
 
