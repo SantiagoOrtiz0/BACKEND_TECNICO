@@ -50,6 +50,17 @@ export class Tecnico {
         return lista.length > 0 ? lista[0].estado : null;
     }
 
+    // NUEVO: usado en el registro de técnico para validar documento duplicado
+    // ANTES de crear el usuario (evita usuarios huérfanos)
+    public async ConsultarTecnicoDocumento(documento: string): Promise<TecnicoData | null> {
+        const {rows: tecnicos} = await conexion.execute(
+            `SELECT * FROM tecnicos WHERE documento = ?`,
+            [documento]
+        );
+        const lista = tecnicos as TecnicoData[];
+        return lista.length > 0 ? lista[0] : null;
+    }
+
     public async ConsultarTecnicoUsuarioId(usuario_id: number): Promise<TecnicoData | null> {
         const {rows: tecnicos} = await conexion.execute(
             `SELECT * FROM tecnicos WHERE usuario_id = ?`,
