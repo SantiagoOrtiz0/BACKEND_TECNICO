@@ -57,7 +57,7 @@ Content-Type: application/json
 # Copia el "token" que te devolvió la petición 3 (login) y pégalo abajo
 POST {{baseUrl}}/api/clientes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sIjoiQURNSU5JU1RSQURPUiIsImVtYWlsIjoiYWRtaW4zQHRhbGxlci5jb20iLCJub21icmUiOiJBZG1pbiBGdW5jaW9uYSIsImp0aSI6ImIxNmUxZmQ4LThhZGQtNDBiYS04ODZlLWNmMWVkZGE4M2M1YyIsImV4cCI6MTc4OTUwNjkzOX0.9yDf-VhRjoz_pXhNesZ2-ETo7BopI0mMmbuXm8AaSw8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sIjoiQURNSU5JU1RSQURPUiIsImVtYWlsIjoiYWRtaW4zQHRhbGxlci5jb20iLCJub21icmUiOiJBZG1pbiBGdW5jaW9uYSIsImp0aSI6IjJmMmMwN2EzLWY1MGQtNDkwMi1iZDJmLTk2OGY1ZDRkNDQzMiIsImV4cCI6MTc4OTUwOTAzM30.NMsVP8h0F7ifbE5aqM9Wr3Dz3ARn8SSjen8XyikPn-Q
 
 {
     "nombre_completo": "Juan Gomez",
@@ -73,9 +73,44 @@ POST {{baseUrl}}/api/logout
 POST  http://localhost:8001/tecnicos
 
 {
-  "usuario_id": 7,
-  "documento": "80111222",
+  "usuario_id":1 ,
+  "documento": "454545",
   "especialidad": "Hardware y portátiles",
   "telefono": "3109876543",
   "estado": "ACTIVO"
+}
+
+###
+POST http://localhost:8001/equipos
+
+{
+  "cliente_id": 1,
+  "tipo_equipo": "Computador portátil",
+  "marca": "Lenovo",
+  "modelo": "ThinkPad E14",
+  "numero_serie": "SN-LEN-002",
+  "descripcion_problema": "No enciende"
+}
+###
+POST http://localhost:8001/ordenes
+
+{
+  "cliente_id": 1,
+  "equipo_id": 1,
+  "tecnico_id": 1,
+  "descripcion_problema": "No enciende",
+  "observaciones": "Cliente deja cargador",
+  "valor_estimado": 150000,
+  "valor_final": 0
+}
+
+###
+PUT http://localhost:8001/ordenes/1
+
+{
+  "tecnico_id": 1,
+  "descripcion_problema": "Falla de fuente confirmada",
+  "observaciones": "Cotizar repuesto",
+  "valor_estimado": 180000,
+  "valor_final": 0
 }
