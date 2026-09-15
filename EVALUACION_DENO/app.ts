@@ -12,8 +12,7 @@ app.use(oakCors({
 }));
 
 
-const routes = [equiposRouter,tecnicosRouter];
-const routes = [authRoutes, clientesRoutes, registroRoutes];
+const routes = [equiposRouter,tecnicosRouter, authRoutes, clientesRoutes, registroRoutes];
 
 routes.forEach(router =>{
     app.use(router.routes());

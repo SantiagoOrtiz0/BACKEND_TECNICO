@@ -1,3 +1,74 @@
+@baseUrl = http://localhost:8001
+
+### 1. Registrar administrador
+POST {{baseUrl}}/api/registro/administrador
+Content-Type: application/json
+
+{
+    "nombre": "Admin Funciona",
+    "correo": "admin3@taller.com",
+    "contrasena": "clave123"
+}
+
+### 2. Registrar tecnico
+POST {{baseUrl}}/api/registro/tecnico
+Content-Type: application/json
+
+{
+    "nombre": "Santiago Gomez",
+    "correo": "santiago2@taller.com.",
+    "contrasena": "clave123",
+    "documento": "12345678",
+    "especialidad": "Hardware y portatiles",
+    "telefono": "3109876543"
+}
+
+### 3. Login correcto
+# @name login
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+    "correo": "admin3@taller.com",
+    "contrasena": "clave123"
+}
+
+### 4. Login incorrecto (contraseña mala)
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+    "correo": "santiago2@taller.com",
+    "contrasena": "claveincorrecta"
+}
+
+### 5. Registrar cliente SIN token 
+POST {{baseUrl}}/api/clientes
+Content-Type: application/json
+
+{
+    "nombre_completo": "Carla Perez",
+    "documento": "12352155",
+    "telefono": "3204104901",
+    "correo": "carla@email.com"
+}
+
+### 6. Registrar cliente CON token
+# Copia el "token" que te devolvió la petición 3 (login) y pégalo abajo
+POST {{baseUrl}}/api/clientes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Iiwicm9sIjoiQURNSU5JU1RSQURPUiIsImVtYWlsIjoiYWRtaW4zQHRhbGxlci5jb20iLCJub21icmUiOiJBZG1pbiBGdW5jaW9uYSIsImp0aSI6ImIxNmUxZmQ4LThhZGQtNDBiYS04ODZlLWNmMWVkZGE4M2M1YyIsImV4cCI6MTc4OTUwNjkzOX0.9yDf-VhRjoz_pXhNesZ2-ETo7BopI0mMmbuXm8AaSw8
+
+{
+    "nombre_completo": "Juan Gomez",
+    "documento": "105293903",
+    "telefono": "3001234567",
+    "correo": "juangomez@email.com"
+}
+
+### 7. Logout
+POST {{baseUrl}}/api/logout
+
 POST  http://localhost:8001/tecnicos
 
 {
