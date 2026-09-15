@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "nombre": "Santiago Gomez",
-    "correo": "santiago2@taller.com.",
+    "correo": "santiago2@taller.com",
     "contrasena": "clave123",
     "documento": "12345678",
     "especialidad": "Hardware y portatiles",
@@ -29,7 +29,7 @@ POST {{baseUrl}}/api/login
 Content-Type: application/json
 
 {
-    "correo": "admin3@taller.com",
+    "correo": "santiago2@taller.com",
     "contrasena": "clave123"
 }
 
@@ -68,6 +68,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzIiwicm9sI
 
 ### 7. Logout
 POST {{baseUrl}}/api/logout
+
 ###
 POST  http://localhost:8001/tecnicos
 
