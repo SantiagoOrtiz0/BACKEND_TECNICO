@@ -3,12 +3,12 @@ import { getEquipos,getEquipoId,getEquiposConCliente,postEquipo,putEquipo,delete
 
 const equiposRouter = new Router();
 
-equiposRouter.get("/tecnicos", getEquipos);
-equiposRouter.get("/tecnicos/:id",getEquipoId);
+equiposRouter.get("/equipos", getEquipos);
 equiposRouter.get("/equipos/con-cliente", getEquiposConCliente);
-equiposRouter.post("/tecnicos",postEquipo);
-equiposRouter.put("/tecnicos/:id",putEquipo);
-equiposRouter.delete("/tecnicos/:id",deleteEquipo);
+equiposRouter.get("/equipos/:id", getEquipoId);
+equiposRouter.post("/equipos", postEquipo);
+equiposRouter.put("/equipos/:id", putEquipo);
+equiposRouter.delete("/equipos/:id", deleteEquipo);
 
 
 export { equiposRouter };
